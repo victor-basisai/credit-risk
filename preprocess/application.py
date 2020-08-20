@@ -9,7 +9,7 @@ import pandas as pd
 from .constants import TARGET
 from .utils import load_data, onehot_enc
 
-BUCKET = "gs://bedrock-sample/credit/"
+BUCKET = "s3://span-production-temp-data/credit"
 # BUCKET = "data/"
 
 BINARY_MAP = {
@@ -54,17 +54,17 @@ def application(execution_date):
 
     # # Swap target
     # raw_df[TARGET] = 1 - raw_df[TARGET]
-    
+
     # Binarize
     for col, val in BINARY_MAP.items():
         raw_df[col] = raw_df[col].apply(lambda x: 0 if x == val[0] else 1)
-    
+
     # One-hot encoding of categorical features
     df, _ = onehot_enc(raw_df, CATEGORICAL_COLS, CATEGORIES)
-    
+
     # NaN values for DAYS_EMPLOYED: 365.243 -> nan
     df['DAYS_EMPLOYED'].replace(365243, np.nan, inplace=True)
-    
+
     # Some simple new features
     df['DAYS_EMPLOYED_PERC'] = df['DAYS_EMPLOYED'] / df['DAYS_BIRTH']
     df['INCOME_CREDIT_PERC'] = df['AMT_INCOME_TOTAL'] / df['AMT_CREDIT']
