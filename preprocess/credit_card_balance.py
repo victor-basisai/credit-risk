@@ -5,7 +5,7 @@ import pandas as pd
 
 from .utils import load_data, onehot_enc
 
-BUCKET = "s3://span-production-temp-data/credit"
+BUCKET = "s3://span-production-temp-data/credit/"
 # BUCKET = "data/"
 
 CATEGORICAL_COLS = ['NAME_CONTRACT_STATUS']

@@ -5,7 +5,7 @@ import pandas as pd
 
 from .utils import load_data
 
-BUCKET = "s3://span-production-temp-data/credit"
+BUCKET = "s3://span-production-temp-data/credit/"
 # BUCKET = "data/"
 
 
