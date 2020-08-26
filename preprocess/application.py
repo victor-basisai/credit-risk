@@ -9,7 +9,7 @@ import pandas as pd
 from .constants import TARGET
 from .utils import load_data, onehot_enc
 
-BUCKET = "s3://span-production-temp-data/credit/"
+BUCKET = "s3://bedrock-sample/credit/"
 # BUCKET = "data/"
 
 BINARY_MAP = {
