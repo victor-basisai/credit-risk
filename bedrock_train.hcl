@@ -37,7 +37,7 @@ train {
         script = [{sh = ["python3 task_train.py"]}]
         resources {
             cpu = "2"
-            memory = "14G"
+            memory = "12G"
         }
         depends_on = ["features_trainer"]
     }
