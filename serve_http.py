@@ -25,11 +25,16 @@ def read_redis_features(sk_id):
     return row[feature_cols]
 
 
-def predict_score(request_json):
+def predict_score(request_json, use_redis=True):
     """Predict function."""
     # Get features
-    sk_id = request_json["sk_id"]
-    row_feats = read_redis_features(sk_id)
+    if use_redis:
+        sk_id = request_json["sk_id"]
+        row_feats = read_redis_features(sk_id)
+    else:
+        row_feats = []
+        for feature_col in feature_cols:
+            row_feats.append(request_json[feature_col])
 
     # Score
     if row_feats is not None:
@@ -69,9 +74,15 @@ def get_metrics():
     return Response(body, content_type=content_type)
 
 
+@app.route("/infer", methods=["POST"])
+def get_prob():
+    """Returns probability, using direct json inputs"""
+    return {"prob": predict_score(request.json, use_redis=False)}
+
+
 @app.route("/", methods=["POST"])
 def get_prob():
-    """Returns probability."""
+    """Returns probability, using redis simulation"""
     return {"prob": predict_score(request.json)}
 
 
