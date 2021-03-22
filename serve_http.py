@@ -75,7 +75,7 @@ def get_metrics():
 
 
 @app.route("/infer", methods=["POST"])
-def get_prob():
+def get_prob_direct():
     """Returns probability, using direct json inputs"""
     return {"prob": predict_score(request.json, use_redis=False)}
 
