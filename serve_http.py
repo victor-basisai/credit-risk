@@ -31,11 +31,13 @@ def predict_score(request_json, use_redis=True):
     if use_redis:
         sk_id = request_json["sk_id"]
         row_feats = read_redis_features(sk_id)
+        features = row_feats.values[0]
     else:
         row_feats = []
         for feature_col in feature_cols:
             row_feats.append(request_json[feature_col])
         row_feats = np.array(row_feats).reshape(1, -1)
+        features = row_feats[0]
 
     # Score
     if row_feats is not None:
@@ -44,7 +46,7 @@ def predict_score(request_json, use_redis=True):
         # Log the prediction
         current_app.monitor.log_prediction(
             request_body=json.dumps(request_json),
-            features=row_feats.values[0],
+            features=features,
             output=prob,
         )
         return prob
