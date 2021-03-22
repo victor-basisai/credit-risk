@@ -35,6 +35,7 @@ def predict_score(request_json, use_redis=True):
         row_feats = []
         for feature_col in feature_cols:
             row_feats.append(request_json[feature_col])
+        row_feats = np.array(row_feats).reshape(1, -1)
 
     # Score
     if row_feats is not None:
